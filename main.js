@@ -1,5 +1,5 @@
 const express = require('express')
-const {readFile, writeFile, existsSync, readdir, rm} = require('fs')
+const {readFile, writeFile, existsSync, readdir, mkdirSync, rm} = require('fs')
 const {slugify, readAllFiles} = require('./tools');
 const path = require('path')
 
@@ -23,14 +23,19 @@ const generalChannelFileName = path.join(CHANNEL_DIR, 'general.json');
 
 // Let's create the general channel on first start-up
 if (!existsSync(generalChannelFileName)) {
+    // and if the "channels" directory does not exist, create it as well
+    if (!existsSync(CHANNEL_DIR)) {
+        mkdirSync(CHANNEL_DIR)
+    }
+
     const general = {
-        title : 'General',
+        title: 'General',
         messages: []
     };
 
     writeFile(generalChannelFileName, stringify(general), FILE_OPTIONS, (error) => {
-        if(error){
-           console.error('Cannot create general channel.', e)
+        if (error) {
+            console.error('Cannot create general channel.', error)
         } else {
             console.log('Initialized empty general channel...')
         }
@@ -146,7 +151,7 @@ app.post('/channels/remove', (request, response) => {
     const {channelName} = request.body;
 
     // we don't allow removing the general channel
-    if(channelName === 'general'){
+    if (channelName === 'general') {
         response.sendStatus(400);
     }
 
