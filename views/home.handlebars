@@ -1,0 +1,50 @@
+<nav>
+    <ul>
+        {{#each allChannels}}
+            <li class="{{#if isCurrent}}selected{{/if}}">
+                <a href="/channels/{{name}}">{{title}}</a>
+            </li>
+        {{/each}}
+    </ul>
+
+    <form method="post" action="/channels/add">
+        <p>Add new channel.</p>
+        <div>
+            <label for="channelTile">Title:</label>
+            <input name="title" id="channelTile" placeholder="Channel title ...">
+        </div>
+        <button type="submit">Create</button>
+    </form>
+</nav>
+
+
+<h1>{{currentChannel.title}}</h1>
+
+<form method="post" action="/channels/{{channelName}}/add">
+    <p>Post new message to channel.</p>
+    <div>
+        <label for="a">Author:</label>
+        <input name="author" id="a" placeholder="Your name ...">
+    </div>
+    <div>
+        <label for="b">Message:</label>
+        <textarea name="text" id="b" placeholder="Type message here..."></textarea>
+    </div>
+    <button type="submit">Send</button>
+</form>
+
+<ul>
+    {{#each currentChannel.messages}}
+        <li>
+            <em>{{author}}</em>
+            <p>{{text}}</p>
+        </li>
+    {{/each}}
+</ul>
+
+{{#unless isGeneral}}
+    <form action="/channels/remove" method="post">
+        <input type="hidden" name="channelName" value="{{channelName}}">
+        <button type="submit">Remove channel</button>
+    </form>
+{{/unless}}

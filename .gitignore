@@ -1,0 +1,8 @@
+#ide
+.idea
+*.iml
+node_modules
+
+#data
+channels/*
+

@@ -1,0 +1,16 @@
+
+a {
+    color: black;
+}
+
+ul {
+    padding-left: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+li.selected {
+    background-color:#ddd;
+}
