@@ -99,11 +99,13 @@ app.post('/channels/:channelName/add', (request, response) => {
 
     const {channelName} = request.params;
 
-    const {author, text} = request.body;
+    const {author, text, left, top} = request.body;
 
     const message = {
         author,
-        text
+        text,
+        left,
+        top
     }
 
     const channelFileName = path.join(CHANNEL_DIR, `${channelName}.json`);
@@ -119,7 +121,7 @@ app.post('/channels/:channelName/add', (request, response) => {
             const {title, messages = []} = parse(text);
             const channel = {
                 title,
-                messages: [message, ...messages]
+                messages: [...messages, message]
             }
 
             writeFile(channelFileName, stringify(channel, null, 2), FILE_OPTIONS, failFastOnError(response)(() => {

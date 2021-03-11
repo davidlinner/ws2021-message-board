@@ -1,0 +1,41 @@
+
+.message-board {
+    position: relative;
+    cursor: crosshair;
+}
+
+.message-board-item {
+    position: absolute;
+    height: 8rem;
+    width: 8rem;
+
+    list-style-type: none;
+
+    background:#ffc;
+    box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+}
+.message-board-item:nth-child(even) {
+    transform:rotate(2deg);
+}
+.message-board-item:nth-child(3n) {
+    transform:rotate(-1deg);
+}
+.message-board-item:nth-child(5n) {
+    transform:rotate(3deg);
+}
+
+.message-board-item__text {
+    margin: .5rem;
+}
+
+.message-board-item__author {
+    margin: .5rem;
+    position: absolute;
+    right: 0;
+    bottom:0;
+
+    font-size: .75rem;
+}
+
+
+

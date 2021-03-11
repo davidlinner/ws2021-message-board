@@ -1,16 +1,61 @@
+@import "variables.css";
 
-a {
+@import "board.css";
+@import "modal.css";
+
+body {
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0;
+
+    font-family: sans-serif;
+
+    display: flex;
+    align-items: stretch;
+}
+
+.navigation {
+
+    flex-grow: 1;
+    min-width: 15rem;
+
+    margin: 0;
+    padding: .5rem 0;
+
+    border-right: 1px solid var(--main-border-color);
+}
+
+.navigation-item {
+    list-style-type: none;
+    padding: .5rem;
     color: black;
 }
 
-ul {
-    padding-left: 0;
+.navigation-item--selected {
+    background-color: var(--main-border-color);
 }
 
-li {
-    list-style-type: none;
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 4;
 }
 
-li.selected {
-    background-color:#ddd;
+.content-header {
+    height: 3.5rem;
+    display: block;
+
+    border-bottom: 1px solid var(--main-border-color);
+    padding: 1rem;
+}
+
+.content-body {
+    display: block;
+    flex-grow: 1;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }

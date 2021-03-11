@@ -1,50 +1,75 @@
-<nav>
-    <ul>
-        {{#each allChannels}}
-            <li class="{{#if isCurrent}}selected{{/if}}">
-                <a href="/channels/{{name}}">{{title}}</a>
+<script src="/static/js/index.js"></script>
+
+<ul class="navigation">
+    {{#each allChannels}}
+        <li class="navigation-item {{#if isCurrent}}navigation-item--selected {{/if}}">
+            <a href="/channels/{{name}}">{{title}}</a>
+        </li>
+    {{/each}}
+    <li>
+        <button id="buttonCreateChannel">Create Channel</button>
+    </li>
+</ul>
+
+<main class="content">
+    <header class="content-header">
+        <h3>
+            {{currentChannel.title}}
+            {{#unless isGeneral}}
+                <form action="/channels/remove" method="post">
+                    <input type="hidden" name="channelName" value="{{channelName}}">
+                    <button type="submit">Remove channel</button>
+                </form>
+            {{/unless}}
+        </h3>
+    </header>
+    <ul id="listMessageBoard" class="content-body message-board">
+        {{#each currentChannel.messages}}
+            <li class="message-board-item" data-left="{{left}}" data-top="{{top}}">
+                <p class="message-board-item__text">{{text}}</p>
+                <div class="message-board-item__author">{{author}}</div>
             </li>
         {{/each}}
     </ul>
+</main>
 
-    <form method="post" action="/channels/add">
-        <p>Add new channel.</p>
-        <div>
+<div id="createMessageModal" class="modal">
+    <form id="formCreateMessage" method="post" action="/channels/{{channelName}}/add" class="modal-container">
+        <header class="modal-container__header">
+            New message
+        </header>
+        <div class="modal-container__body">
+            <div>
+                <label for="a">Author:</label>
+                <input name="author" id="a" placeholder="Your name ...">
+            </div>
+            <div>
+                <label for="b">Message:</label>
+                <textarea name="text" id="b" placeholder="Type message here..."></textarea>
+            </div>
+            <input type="hidden" id="inputLeft" name="left" value="0">
+            <input type="hidden" id="inputTop" name="top" value="0">
+
+        </div>
+        <div class="modal-container__footer">
+            <button type="submit">Send</button>
+        </div>
+    </form>
+</div>
+
+<div id="createChannelModal" class="modal">
+    <form method="post" action="/channels/add" class="modal-container">
+        <header class="modal-container__header">
+            Add new channel
+        </header>
+        <div class="modal-container__body">
             <label for="channelTile">Title:</label>
             <input name="title" id="channelTile" placeholder="Channel title ...">
         </div>
-        <button type="submit">Create</button>
+        <div class="modal-container__footer">
+            <button type="submit">Create</button>
+        </div>
     </form>
-</nav>
+</div>
 
 
-<h1>{{currentChannel.title}}</h1>
-
-<form method="post" action="/channels/{{channelName}}/add">
-    <p>Post new message to channel.</p>
-    <div>
-        <label for="a">Author:</label>
-        <input name="author" id="a" placeholder="Your name ...">
-    </div>
-    <div>
-        <label for="b">Message:</label>
-        <textarea name="text" id="b" placeholder="Type message here..."></textarea>
-    </div>
-    <button type="submit">Send</button>
-</form>
-
-<ul>
-    {{#each currentChannel.messages}}
-        <li>
-            <em>{{author}}</em>
-            <p>{{text}}</p>
-        </li>
-    {{/each}}
-</ul>
-
-{{#unless isGeneral}}
-    <form action="/channels/remove" method="post">
-        <input type="hidden" name="channelName" value="{{channelName}}">
-        <button type="submit">Remove channel</button>
-    </form>
-{{/unless}}
